@@ -1,0 +1,66 @@
+/*
+        
+#include<string.h>
+
+vector<int> patternSearch(string text, string pattern) {
+    int sizeOfAlphabet = 256;
+    int n = pattern.size();
+    int m = text.size();
+
+    vector<int>ans;
+    int preComputed[sizeOfAlphabet];
+    char textArray[m + 1];
+    strcpy(textArray, text.c_str());
+    char patternArray[n + 1];
+    strcpy(patternArray, pattern.c_str());
+
+
+   
+    for (int i = 0; i < sizeOfAlphabet; i++){
+        preComputed[i] = -1;  
+    }
+
+
+    for(int i = 0; i < n; i++) {
+        preComputed[(int)patternArray[i]] = i;
+    }
+
+
+    int skip = 0;
+
+    while(skip <= (m - n)){
+        int j = n - 1;
+
+     
+        while(j >= 0 and patternArray[j] == textArray[skip + j]) {
+            j--;
+        }
+
+        
+        if(j < 0) {
+            ans.push_back(skip);
+
+            
+            if((skip + n) < m) {
+                skip += n - preComputed[textArray[skip + n]];
+            }
+
+            else {
+                skip += 1;
+            }
+        }
+
+        else {
+            
+            
+            skip += max(1, j - preComputed[textArray[skip + j]]);
+        }
+    }
+
+    
+    if(ans.size() == 0) {
+        ans.push_back(-1);
+    }
+
+    return ans;
+}
